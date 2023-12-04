@@ -3,6 +3,7 @@ package com.rsix.droidkit
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.ClassCastException
 
 abstract class BaseViewTypeAdapter<B :BaseViewTypeItem> :RecyclerView.Adapter<BaseViewTypeHolder<B>>(){
 
@@ -30,7 +31,11 @@ abstract class BaseViewTypeAdapter<B :BaseViewTypeItem> :RecyclerView.Adapter<Ba
 
      final override fun onBindViewHolder(holder: BaseViewTypeHolder<B>, position: Int) {
          mDataList.getOrNull(position)?.let {
-             holder.onBind(it)
+             try {
+                 holder.onBind(it)
+             }catch (e:ClassCastException){
+                 throw ClassCastException("adapter's data can't cast to holder's data ")
+             }
          }
      }
 
@@ -65,7 +70,7 @@ abstract class BaseViewTypeAdapter<B :BaseViewTypeItem> :RecyclerView.Adapter<Ba
         }
     }
 
-    fun updateData(newData: MutableList<B>?) {
+    open fun updateData(newData: MutableList<B>?) {
         val old = mDataList
         mDataList = newData ?: mutableListOf()
         DiffUtil.calculateDiff(object : DiffUtil.Callback() {
