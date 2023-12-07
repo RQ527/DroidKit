@@ -48,7 +48,6 @@ android {
     }
 }
 dependencies {
-    implementation(project(":annotation"))
     implementation(project(":library"))
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     ksp(project(":compiler"))
