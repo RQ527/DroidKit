@@ -1,11 +1,11 @@
-package com.rsix.droidkit
+package com.rsix.library
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.ClassCastException
 
-abstract class BaseViewTypeAdapter<B :BaseViewTypeItem> :RecyclerView.Adapter<BaseViewTypeHolder<B>>(){
+abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :RecyclerView.Adapter<BaseViewTypeHolder<B>>(){
 
     private var mDataList = mutableListOf<B>()
 
@@ -18,7 +18,7 @@ abstract class BaseViewTypeAdapter<B :BaseViewTypeItem> :RecyclerView.Adapter<Ba
      *     BaseViewTypeAdapter<BaseViewTypeItem>() {
      * }
      */
-    open val holderFactory:HolderFactory
+    open val holderFactory: HolderFactory
         get() {
             val clazz = Class.forName("${this::class.qualifiedName}Factory")
             val ob = clazz.getDeclaredField("Companion").get(null)

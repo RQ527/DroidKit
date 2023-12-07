@@ -2,7 +2,7 @@ package com.rsix.droidkit
 
 
 class TestAdapter(
-    override val holderFactory: HolderFactory = TestAdapterFactory.instance
+    override val holderFactory: com.rsix.library.HolderFactory = TestAdapterFactory.instance
 ) :
-    BaseViewTypeAdapter<BaseViewTypeItem>() {
+    com.rsix.library.BaseViewTypeAdapter<com.rsix.library.BaseViewTypeItem>() {
 }

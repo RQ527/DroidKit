@@ -1,4 +1,4 @@
-package com.rsix.droidkit
+package com.rsix.library
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

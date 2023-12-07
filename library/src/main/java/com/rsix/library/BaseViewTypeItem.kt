@@ -1,4 +1,4 @@
-package com.rsix.droidkit
+package com.rsix.library
 
 abstract class BaseViewTypeItem{
     abstract val viewType:String

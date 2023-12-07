@@ -16,7 +16,7 @@ import com.rsix.droidkit.databinding.RecyclerItemBinding
     adapters = [TestAdapter::class],
     viewType = "test"
 )
-class TestHolder(private val composeView: ComposeView) : BaseViewTypeHolder<TestBean>(composeView) {
+class TestHolder(private val composeView: ComposeView) : com.rsix.library.BaseViewTypeHolder<TestBean>(composeView) {
 
     override fun onBind(data: TestBean) {
         composeView.setContent {
@@ -34,7 +34,7 @@ class TestHolder(private val composeView: ComposeView) : BaseViewTypeHolder<Test
     viewType = "test1"
 )
 class TestHolder1(private val composeView: ComposeView) :
-    BaseViewTypeHolder<TestBean1>(composeView) {
+    com.rsix.library.BaseViewTypeHolder<TestBean1>(composeView) {
 
     override fun onBind(data: TestBean1) {
         composeView.setContent {
@@ -52,7 +52,7 @@ class TestHolder1(private val composeView: ComposeView) :
     viewType = "test2"
 )
 class TestHolder2(private val composeView: ComposeView) :
-    BaseViewTypeHolder<TestBean2>(composeView) {
+    com.rsix.library.BaseViewTypeHolder<TestBean2>(composeView) {
     override fun onBind(data: TestBean2) {
         composeView.setContent {
             Text(
@@ -70,7 +70,7 @@ class TestHolder2(private val composeView: ComposeView) :
     layoutProvider = TestHolder3.HolderLayoutProvider::class
 )
 class TestHolder3(itemView: View) :
-    BaseViewTypeHolder<TestBean>(itemView) {
+    com.rsix.library.BaseViewTypeHolder<TestBean>(itemView) {
     private val binding: RecyclerItemBinding = RecyclerItemBinding.bind(itemView)
 
     class HolderLayoutProvider() : LayoutProvider {

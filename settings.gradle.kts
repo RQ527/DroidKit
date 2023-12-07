@@ -17,3 +17,4 @@ rootProject.name = "DroidKit"
 include(":app")
 include(":compiler")
 include(":annotation")
+include(":library")
