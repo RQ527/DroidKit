@@ -49,7 +49,7 @@ class HolderFactoryClass(
         )
         .build()
 
-    private fun generateCreateFun():FunSpec.Builder {
+    private fun generateCreateFun(): FunSpec.Builder {
         val createMethod = FunSpec.builder("create")
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("parent", VIEW_GROUP_CLASS)
@@ -58,11 +58,11 @@ class HolderFactoryClass(
         mSupportHolders.forEachIndexed { index, info ->
             createMethod.apply {
                 if (index == 0) beginControlFlow(
-                    "if(viewType == getViewTypeByString(%S))",
+                    "if(viewType == getIntViewType(%S))",
                     info.viewType
                 )
                 else beginControlFlow(
-                    "else if(viewType == getViewTypeByString(%S))",
+                    "else if(viewType == getIntViewType(%S))",
                     info.viewType
                 )
                 if (info.needComposeView)
@@ -84,7 +84,7 @@ class HolderFactoryClass(
             }
         }
         createMethod.addStatement(
-            "throw %T(\"can't find viewType:\$viewType！\")",
+            "throw %T(\"can't find viewType: \${getStrViewType(viewType)}\")",
             RUNTIME_EXCEPTION_CLASS
         )
         return createMethod

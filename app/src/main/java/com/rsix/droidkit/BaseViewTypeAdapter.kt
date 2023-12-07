@@ -40,8 +40,13 @@ abstract class BaseViewTypeAdapter<B :BaseViewTypeItem> :RecyclerView.Adapter<Ba
      }
 
     final override fun getItemViewType(position: Int): Int {
-        return mDataList.getOrNull(position)?.viewType?.hashCode() ?: 0
+        val viewType = mDataList[position].viewType
+        holderFactory.addViewType(viewType,getIntViewTypeByString(viewType))
+        return getIntViewTypeByString(viewType)
     }
+
+    open fun getIntViewTypeByString(viewType:String) = viewType.hashCode()
+
 
     final override fun getItemCount(): Int = mDataList.size
 

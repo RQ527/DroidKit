@@ -3,7 +3,21 @@ package com.rsix.droidkit
 import android.view.ViewGroup
 
 abstract class HolderFactory {
-    abstract fun create(parent: ViewGroup, viewType: Int):BaseViewTypeHolder<*>
+    private val mTypes = mutableMapOf<String,Int>()
+    abstract fun create(parent: ViewGroup, viewType: Int): BaseViewTypeHolder<*>
 
-    open fun getViewTypeByString(viewType: String) = viewType.hashCode()
+    fun getIntViewType(viewType: String): Int? {
+        return mTypes[viewType]
+    }
+
+    fun getStrViewType(viewType: Int):String {
+        mTypes.forEach {
+            if (it.value == viewType) return it.key
+        }
+        throw RuntimeException(" int viewType(value is $viewType) isn't in mTypes")
+    }
+
+    fun addViewType(viewType: String,value:Int) {
+        mTypes[viewType] = value
+    }
 }

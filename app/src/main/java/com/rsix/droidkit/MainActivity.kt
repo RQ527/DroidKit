@@ -26,7 +26,8 @@ class MainActivity : ComponentActivity() {
                                     ),
                                     TestBean1("test1", "我是类型b",2),
                                     TestBean2("test2", "我是类型c",3),
-                                    TestBean("a","我是binding类型",4)
+                                    TestBean("binding","我是binding类型",4),
+                                    TestBean("binding","binding",5)
                                 )
                             )
                         }

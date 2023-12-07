@@ -66,7 +66,7 @@ class TestHolder2(private val composeView: ComposeView) :
 
 @AdapterHolder(
     adapters = [TestAdapter::class],
-    viewType = "a",
+    viewType = "binding",
     layoutProvider = TestHolder3.HolderLayoutProvider::class
 )
 class TestHolder3(itemView: View) :
@@ -81,7 +81,7 @@ class TestHolder3(itemView: View) :
 
     override fun onBind(data: TestBean) {
         binding.rvItemTv.textSize = 15f
-        binding.rvItemTv.text = "我绑定的是binding"
+        binding.rvItemTv.text = data.content
     }
 
 }
