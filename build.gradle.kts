@@ -6,3 +6,7 @@ plugins {
     id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
     id("com.android.library") version "8.1.2" apply false
 }
+
+tasks.register<Delete>("clean") {
+    delete(rootProject.buildDir)
+}
