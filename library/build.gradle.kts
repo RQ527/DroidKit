@@ -18,12 +18,11 @@ android {
         }
     }
     java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(11))
-        }
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlin {
-        jvmToolchain(11)
+        jvmToolchain(8)
     }
     afterEvaluate {
         publishing {

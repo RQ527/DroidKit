@@ -3,17 +3,13 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
     id("kotlin-kapt")
 }
-
 java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 kotlin {
-    // For example:
-    jvmToolchain(11)
+    jvmToolchain(8)
 }
-
 dependencies {
     implementation(project(":annotation"))
     // https://mvnrepository.com/artifact/com.google.auto.service/auto-service
