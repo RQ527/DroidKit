@@ -19,11 +19,11 @@ android {
     }
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(17))
+            languageVersion.set(JavaLanguageVersion.of(11))
         }
     }
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(11)
     }
     afterEvaluate {
         publishing {

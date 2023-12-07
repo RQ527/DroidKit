@@ -24,12 +24,11 @@ android {
             isMinifyEnabled = false
         }
     }
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(17))
-        }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17 // 指定源代码的兼容性
+        targetCompatibility = JavaVersion.VERSION_17 // 指定目标平台的兼容性
     }
-    kotlin {
+    kotlin{
         jvmToolchain(17)
     }
     buildFeatures {

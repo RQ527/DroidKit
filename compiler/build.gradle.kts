@@ -6,12 +6,12 @@ plugins {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(11))
     }
 }
 kotlin {
     // For example:
-    jvmToolchain(8)
+    jvmToolchain(11)
 }
 
 dependencies {
