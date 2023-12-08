@@ -67,6 +67,8 @@ dependencies{
 }
 ```
 
+接下来是在项目中的具体使用方式：
+
 首先创建Bean类，继承自BaseViewTypeItem：
 
 ```kotlin
