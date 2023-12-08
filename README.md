@@ -14,6 +14,59 @@
 
 ### AdapterHolder使用姿势：
 
+#### 如何引入？
+
+项目使用ksp生成代码，首先在根目录build.gradle.kts下引入ksp:
+
+```kotlin
+plugins {
+    id("com.android.application") version "8.1.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.21" apply false
+    id("com.google.devtools.ksp") version "1.9.21-1.0.15" apply false // ksp
+}
+tasks.register<Delete>("clean") {
+    delete(rootProject.buildDir)
+}
+```
+
+在根目录settings.gradle.kts下设置jitpack仓库：
+
+```kotlin
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven("https://jitpack.io")
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://jitpack.io")
+    }
+}
+```
+
+在具体模块目录的build.gradle.kts引入依赖，将其中latest_version替换成最新版本：
+
+```kotlin
+plugins{
+    // other plugin
+    id("com.google.devtools.ksp")//使用ksp插件
+}
+android{
+    //.....your android config
+}
+dependencies{
+    implementation("com.github.RQ527.DroidKit:annotation:latest_version")
+    implementation("com.github.RQ527.DroidKit:library:latest_version")
+    ksp("com.github.RQ527.DroidKit:compiler:latest_version")
+}
+```
+
 首先创建Bean类，继承自BaseViewTypeItem：
 
 ```kotlin
