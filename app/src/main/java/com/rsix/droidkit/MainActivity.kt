@@ -9,6 +9,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rsix.droidkit.ui.theme.DroidKitTheme
+import com.rsix.library.DefaultViewTypeAdapter
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +18,7 @@ class MainActivity : ComponentActivity() {
             DroidKitTheme {
                 AndroidView(modifier = Modifier.fillMaxSize(), factory = { context ->
                     RecyclerView(context).apply {
-                        adapter = TestAdapter().apply {
+                        adapter = DefaultViewTypeAdapter().apply {
                             setItemList(
                                 mutableListOf(
                                     TestBean(

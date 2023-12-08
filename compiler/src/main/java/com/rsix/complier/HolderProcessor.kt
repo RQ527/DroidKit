@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService
 import com.google.devtools.ksp.KSTypeNotPresentException
 import com.google.devtools.ksp.KSTypesNotPresentException
 import com.google.devtools.ksp.KspExperimental
+import com.google.devtools.ksp.getAllSuperTypes
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.getConstructors
 import com.google.devtools.ksp.processing.CodeGenerator
@@ -24,7 +25,12 @@ class HolderProcessor(private val codeGenerator: CodeGenerator, val logger: KSPL
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val symbols = resolver.getSymbolsWithAnnotation(AdapterHolder::class.java.name)
         val map = mutableMapOf<String, HolderFactoryClass>()
-        symbols.filter { it is KSClassDeclaration }.forEach { ksAnnotated ->
+        val ret = symbols.filter { it is KSClassDeclaration }
+        ret.forEach { ksAnnotated ->
+            ksAnnotated as KSClassDeclaration
+            checkHolder(ksAnnotated)
+        }
+        ret.forEach { ksAnnotated ->
             ksAnnotated as KSClassDeclaration
             val test = ksAnnotated.getAnnotationsByType(AdapterHolder::class)//事实上只有一个
             test.forEach {
@@ -34,7 +40,7 @@ class HolderProcessor(private val codeGenerator: CodeGenerator, val logger: KSPL
                     e.ksTypes.forEach { ksType ->
                         val packageName = ksType.declaration.packageName.asString()
                         val className = ksType.declaration.simpleName.asString()
-                        var factory = map.getOrPut("$packageName.$className") {
+                        val factory = map.getOrPut("$packageName.$className") {
                             HolderFactoryClass(
                                 packageName,
                                 className
@@ -62,7 +68,15 @@ class HolderProcessor(private val codeGenerator: CodeGenerator, val logger: KSPL
         map.forEach {
             it.value.createFactoryClass(codeGenerator)
         }
-        return emptyList()
+        return symbols.filter { it !is KSClassDeclaration }.toList()
+    }
+
+    private fun checkHolder(ksClass: KSClassDeclaration){
+        ksClass.primaryConstructor?.let { if (it.parameters.size > 1) throw AdapterHolderException("adapterHolder can only has") }
+        ksClass.getAllSuperTypes().forEach {
+            if (it.toClassName().toString()=="com.rsix.library.BaseViewTypeHolder") return
+        }
+        throw AdapterHolderException("annotated holder didn't extend com.rsix.library.BaseViewTypeHolder")
     }
 
     private fun checkLayoutProvider(layoutProvider: KSType?){
@@ -73,14 +87,14 @@ class HolderProcessor(private val codeGenerator: CodeGenerator, val logger: KSPL
     }
 
     private fun isNeedComposeView(ksAnnotated: KSClassDeclaration): Boolean {
-        ksAnnotated.primaryConstructor?.let {
-            it.parameters.forEach { param ->
-                val name = param.type.toString()
+        ksAnnotated.getConstructors().forEach {
+            if (it.parameters.size==1){
+                val name = it.parameters[0].type.toString()
                 if (name == "ComposeView") return true
                 else if (name == "View") return false
             }
         }
-        throw AdapterHolderException("can't analyze holder's params")
+        throw AdapterHolderException("make sure you holder has one constructor whose parameter type is ComposeView or View")
     }
 }
 

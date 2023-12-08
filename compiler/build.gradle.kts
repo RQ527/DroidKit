@@ -16,7 +16,7 @@ publishing {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
             groupId = "com.rsix.droidkit.compiler" // 依赖库的组 id
-            artifactId = "compiler" // 依赖库的名称（jitpack 都不会使用到）
+            artifactId = "compiler" // 依赖库的名称
             version = "1.0.0"
         }
     }

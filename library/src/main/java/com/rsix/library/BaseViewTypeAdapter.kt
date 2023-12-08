@@ -11,12 +11,16 @@ abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :RecyclerView.Adapter<B
 
     /**
      * 获取holderFactory，默认反射获取，可build后重写获取实例
+     *
      * 例：
+     *
+     * ```kotlin
      * class TestAdapter(
      *     override val holderFactory: HolderFactory = TestAdapterFactory.instance
-     * ) :
-     *     BaseViewTypeAdapter<BaseViewTypeItem>() {
+     * ) : DefaultViewTypeAdapter() {
+     *      //adapter内部逻辑
      * }
+     * ```
      */
     open val holderFactory: HolderFactory
         get() {
@@ -25,11 +29,11 @@ abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :RecyclerView.Adapter<B
             return ob::class.java.getDeclaredMethod("getInstance").invoke(ob) as HolderFactory
         }
 
-    final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewTypeHolder<B> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewTypeHolder<B> {
         return holderFactory.create(parent, viewType) as BaseViewTypeHolder<B>
     }
 
-     final override fun onBindViewHolder(holder: BaseViewTypeHolder<B>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewTypeHolder<B>, position: Int) {
          mDataList.getOrNull(position)?.let {
              try {
                  holder.onBind(it)

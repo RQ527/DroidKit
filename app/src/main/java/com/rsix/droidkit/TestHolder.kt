@@ -11,9 +11,11 @@ import androidx.compose.ui.text.style.TextAlign
 import com.rsix.annotation.AdapterHolder
 import com.rsix.annotation.LayoutProvider
 import com.rsix.droidkit.databinding.RecyclerItemBinding
+import com.rsix.library.DefaultListAdapter
+import com.rsix.library.DefaultViewTypeAdapter
 
 @AdapterHolder(
-    adapters = [TestAdapter::class],
+    adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
     viewType = "test"
 )
 class TestHolder(private val composeView: ComposeView) : com.rsix.library.BaseViewTypeHolder<TestBean>(composeView) {
@@ -30,7 +32,7 @@ class TestHolder(private val composeView: ComposeView) : com.rsix.library.BaseVi
 }
 
 @AdapterHolder(
-    adapters = [TestAdapter::class],
+    adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
     viewType = "test1"
 )
 class TestHolder1(private val composeView: ComposeView) :
@@ -48,7 +50,7 @@ class TestHolder1(private val composeView: ComposeView) :
 }
 
 @AdapterHolder(
-    adapters = [TestAdapter::class],
+    adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
     viewType = "test2"
 )
 class TestHolder2(private val composeView: ComposeView) :
@@ -65,7 +67,7 @@ class TestHolder2(private val composeView: ComposeView) :
 }
 
 @AdapterHolder(
-    adapters = [TestAdapter::class],
+    adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
     viewType = "binding",
     layoutProvider = TestHolder3.HolderLayoutProvider::class
 )

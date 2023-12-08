@@ -37,6 +37,7 @@ class HolderFactoryClass(
         val createMethodBuilder = generateCreateFun()
         classBuilder.addType(companionObject)
             .addFunction(createMethodBuilder.build())
+            .addKdoc("Generate by ksp,don't edit it!!!")
         file.addType(classBuilder.build())
         file.build().writeTo(codeGenerator, Dependencies(true))
     }

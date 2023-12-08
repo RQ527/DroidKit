@@ -30,7 +30,7 @@ android {
                 create<MavenPublication>("release") {
                     from(components["release"])
                     groupId = "com.rsix.droidkit.library" // 依赖库的组 id
-                    artifactId = "library" // 依赖库的名称（jitpack 都不会使用到）
+                    artifactId = "library" // 依赖库的名称
                     version = "1.0.0"
                 }
             }
@@ -39,7 +39,5 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.10.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 }
