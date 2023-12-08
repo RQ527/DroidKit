@@ -17,12 +17,12 @@ android {
             isMinifyEnabled = false
         }
     }
-    java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11 // 指定源代码的兼容性
+        targetCompatibility = JavaVersion.VERSION_11 // 指定目标平台的兼容性
     }
-    kotlin {
-        jvmToolchain(8)
+    kotlinOptions{
+        jvmTarget = "11"
     }
     afterEvaluate {
         publishing {
@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
     api(project(":annotation"))

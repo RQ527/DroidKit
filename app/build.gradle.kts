@@ -25,17 +25,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17 // 指定源代码的兼容性
-        targetCompatibility = JavaVersion.VERSION_17 // 指定目标平台的兼容性
+        sourceCompatibility = JavaVersion.VERSION_11 // 指定源代码的兼容性
+        targetCompatibility = JavaVersion.VERSION_11 // 指定目标平台的兼容性
     }
-    kotlin{
-        jvmToolchain(17)
+    kotlinOptions{
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.6"
     }
     packaging {
         resources {
@@ -51,9 +51,9 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     ksp(project(":compiler"))
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.0")
+    implementation("androidx.activity:activity-compose:1.7.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
