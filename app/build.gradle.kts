@@ -47,9 +47,10 @@ android {
     }
 }
 dependencies {
-    implementation(project(":library"))
+    implementation("com.rsix.droidkit.annotation:annotation:1.0.0")
+    implementation("com.rsix.droidkit.library:library:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-    ksp(project(":compiler"))
+    ksp("com.rsix.droidkit.compiler:compiler:1.0.0")
 
     implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -59,5 +60,4 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-
 }
