@@ -47,10 +47,10 @@ android {
     }
 }
 dependencies {
-    implementation("com.rsix.droidkit.annotation:annotation:1.0.0")
-    implementation("com.rsix.droidkit.library:library:1.0.0")
+    implementation(project(":annotation"))
+    implementation(project(":library"))
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-    ksp("com.rsix.droidkit.compiler:compiler:1.0.0")
+    ksp(project(":compiler"))
 
     implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
