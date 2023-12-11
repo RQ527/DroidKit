@@ -51,7 +51,7 @@ class TestHolder1(private val composeView: ComposeView) :
 
 @AdapterHolder(
     adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
-    viewType = "test2"
+    viewType = "dcdsccds"
 )
 class TestHolder2(private val composeView: ComposeView) :
     com.rsix.library.BaseViewTypeHolder<TestBean2>(composeView) {

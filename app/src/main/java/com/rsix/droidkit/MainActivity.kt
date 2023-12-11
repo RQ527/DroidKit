@@ -9,6 +9,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rsix.droidkit.ui.theme.DroidKitTheme
+import com.rsix.library.DefaultListAdapter
 import com.rsix.library.DefaultViewTypeAdapter
 
 class MainActivity : ComponentActivity() {
@@ -18,8 +19,8 @@ class MainActivity : ComponentActivity() {
             DroidKitTheme {
                 AndroidView(modifier = Modifier.fillMaxSize(), factory = { context ->
                     RecyclerView(context).apply {
-                        adapter = DefaultViewTypeAdapter().apply {
-                            setItemList(
+                        adapter = DefaultListAdapter().apply {
+                            submitList(
                                 mutableListOf(
                                     TestBean(
                                         "test",
@@ -28,7 +29,8 @@ class MainActivity : ComponentActivity() {
                                     TestBean1("test1", "我是类型b",2),
                                     TestBean2("test2", "我是类型c",3),
                                     TestBean("binding","我是binding类型",4),
-                                    TestBean("binding","binding",5)
+                                    TestBean("binding","binding",5),
+                                    TestBean("dsdcdsdc","binding",6),
                                 )
                             )
                         }

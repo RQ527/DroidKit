@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.CLASS)
 annotation class AdapterHolder (
     /**
-     * holder在adapter里所属类型
+     * holder在adapter里所属类型，当与data类匹配不到时会自动过滤不显示
      */
     val viewType:String = "",
     /**

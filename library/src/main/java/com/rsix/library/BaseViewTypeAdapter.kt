@@ -5,7 +5,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.ClassCastException
 
-abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :RecyclerView.Adapter<BaseViewTypeHolder<B>>(){
+abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :
+    RecyclerView.Adapter<BaseViewTypeHolder<B>>() {
 
     private var mDataList = mutableListOf<B>()
 
@@ -34,37 +35,42 @@ abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :RecyclerView.Adapter<B
     }
 
     override fun onBindViewHolder(holder: BaseViewTypeHolder<B>, position: Int) {
-         mDataList.getOrNull(position)?.let {
-             try {
-                 holder.onBind(it)
-             }catch (e:ClassCastException){
-                 throw ClassCastException("adapter's data can't cast to holder's data ")
-             }
-         }
-     }
+        mDataList.getOrNull(position)?.let {
+            try {
+                holder.onBind(it)
+            } catch (e: ClassCastException) {
+                throw ClassCastException("adapter's data can't cast to holder's data ")
+            }
+        }
+    }
 
     final override fun getItemViewType(position: Int): Int {
         val viewType = mDataList[position].viewType
-        holderFactory.addViewType(viewType,getIntViewTypeByString(viewType))
-        return getIntViewTypeByString(viewType)
+        return getIntViewType(viewType)
     }
 
-    open fun getIntViewTypeByString(viewType:String) = viewType.hashCode()
+    open fun getIntViewType(viewType: String) = viewType.hashCode()
 
 
     final override fun getItemCount(): Int = mDataList.size
 
     open fun addItem(item: B?, notifyDataSetChange: Boolean = true) {
-        mDataList.add(item ?: return)
-        if (notifyDataSetChange) {
-            notifyItemInserted(itemCount - 1)
+        val viewType = item?.viewType ?: return
+        if (holderFactory.addViewType(viewType, getIntViewType(viewType))) {
+            mDataList.add(item)
+            if (notifyDataSetChange) notifyItemInserted(itemCount - 1)
         }
     }
 
     open fun setItemList(itemList: List<B>?, notifyDataSetChange: Boolean = true) {
         if (itemList.isNullOrEmpty()) return
         mDataList.clear()
-        mDataList.addAll(itemList)
+        mDataList.addAll(itemList.filter {
+            holderFactory.addViewType(
+                it.viewType,
+                getIntViewType(it.viewType)
+            )
+        })
         if (notifyDataSetChange) {
             notifyDataSetChanged()
         }
@@ -73,7 +79,12 @@ abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :RecyclerView.Adapter<B
     open fun addItemList(itemList: List<B>?, notifyDataSetChange: Boolean = true) {
         if (itemList.isNullOrEmpty()) return
         val insertPosition = itemCount
-        mDataList.addAll(itemList)
+        mDataList.addAll(itemList.filter {
+            holderFactory.addViewType(
+                it.viewType,
+                getIntViewType(it.viewType)
+            )
+        })
         if (notifyDataSetChange) {
             notifyItemRangeInserted(insertPosition, itemList.size)
         }
@@ -81,7 +92,12 @@ abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :RecyclerView.Adapter<B
 
     open fun updateData(newData: MutableList<B>?) {
         val old = mDataList
-        mDataList = newData ?: mutableListOf()
+        mDataList = newData?.filter {
+            holderFactory.addViewType(
+                it.viewType,
+                getIntViewType(it.viewType)
+            )
+        }?.toMutableList() ?: mutableListOf()
         DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int = old.size
             override fun getNewListSize(): Int = mDataList.size
@@ -101,7 +117,19 @@ abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :RecyclerView.Adapter<B
     }
 
     open fun replaceItem(position: Int, item: B?) {
-        if (item != null) {
+        item?.let {
+            it.takeIf { value ->
+                value.viewType != mDataList[position].viewType
+            }?.let { different ->
+                different.takeIf { value ->
+                    holderFactory.addViewType(
+                        value.viewType,
+                        getIntViewType(value.viewType)
+                    )
+                }?.let {
+                    holderFactory.removeType(mDataList[position].viewType)
+                } ?: return
+            }
             mDataList[position] = item
             notifyItemChanged(position)
         }

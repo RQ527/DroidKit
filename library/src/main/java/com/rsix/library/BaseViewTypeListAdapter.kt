@@ -37,9 +37,26 @@ abstract class BaseViewTypeListAdapter<T : BaseViewTypeItem> :
 
     final override fun getItemViewType(position: Int): Int {
         val viewType = getItem(position).viewType
-        holderFactory.addViewType(viewType, getIntViewTypeByString(viewType))
-        return getIntViewTypeByString(viewType)
+        return getIntViewType(viewType)
     }
 
-    open fun getIntViewTypeByString(viewType: String) = viewType.hashCode()
+    override fun submitList(list: MutableList<T>?) {
+        super.submitList(list?.filter {
+            holderFactory.addViewType(
+                it.viewType,
+                getIntViewType(it.viewType)
+            )
+        })
+    }
+
+    override fun submitList(list: MutableList<T>?, commitCallback: Runnable?) {
+        super.submitList(list?.filter {
+            holderFactory.addViewType(
+                it.viewType,
+                getIntViewType(it.viewType)
+            )
+        }, commitCallback)
+    }
+
+    open fun getIntViewType(viewType: String) = viewType.hashCode()
 }

@@ -27,11 +27,7 @@ class HolderFactoryClass(
         val factoryClass = ClassName(packageName, "${className}Factory")
         val file = FileSpec.builder(factoryClass)
         val classBuilder = TypeSpec.classBuilder(factoryClass)
-            .primaryConstructor(
-                FunSpec.constructorBuilder()
-                    .addModifiers(KModifier.PRIVATE)
-                    .build()
-            )
+            .primaryConstructor(generateIntFun())
             .superclass(HOLDER_FACTORY_CLASS)
         val companionObject = generateInstanceFun(factoryClass)
         val createMethodBuilder = generateCreateFun()
@@ -40,6 +36,15 @@ class HolderFactoryClass(
             .addKdoc("Generate by ksp,don't edit it!!!")
         file.addType(classBuilder.build())
         file.build().writeTo(codeGenerator, Dependencies(true))
+    }
+
+    private fun generateIntFun():FunSpec{
+        val initFun = FunSpec.constructorBuilder()
+            .addModifiers(KModifier.PRIVATE)
+        mSupportHolders.forEach {
+            initFun.addStatement("addViewType(%S)",it.viewType)
+        }
+        return initFun.build()
     }
 
     private fun generateInstanceFun(factoryClass: ClassName) = TypeSpec.companionObjectBuilder()
