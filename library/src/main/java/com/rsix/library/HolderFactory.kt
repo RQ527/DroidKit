@@ -22,8 +22,6 @@ abstract class HolderFactory {
             true
         } ?: false
 
-    fun removeType(viewType: String) = mTypes.remove(viewType)
-
     protected fun addViewType(viewType: String) {
         mTypes[viewType] = Int.MIN_VALUE
     }

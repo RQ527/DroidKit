@@ -126,8 +126,6 @@ abstract class BaseViewTypeAdapter<B : BaseViewTypeItem> :
                         value.viewType,
                         getIntViewType(value.viewType)
                     )
-                }?.let {
-                    holderFactory.removeType(mDataList[position].viewType)
                 } ?: return
             }
             mDataList[position] = item
