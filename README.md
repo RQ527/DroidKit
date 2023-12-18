@@ -133,7 +133,7 @@ class TestHolder(itemView: View) :
 }
 ```
 
-需要注意的是内部会调用LayoutProvider的无参构造请保证其实现类有一个无参构造函数，LayoutProvider作为内部类外部类都无关系，只需有一个无参构造函数即可。如果你需要viewBinding，只需将其绑定到itemView。因为内部使用了ksp生成代码，无法为你提供在kapt生成的viewBinding。使用方式：
+需要注意的是内部会调用LayoutProvider的无参构造请保证其实现类有一个无参构造函数，LayoutProvider作为内部类外部类都无关系，只需有一个无参构造函数即可。如果你需要dataBinding，只需将其绑定到itemView。因为内部使用了ksp生成代码，无法为你提供在kapt生成的dataBinding。使用方式：
 
 ```kotlin
 @AdapterHolder(
@@ -144,6 +144,29 @@ class TestHolder(itemView: View) :
 class TestHolder(itemView: View) :
     BaseViewTypeHolder<TestBean>(itemView) {
     private val binding: RecyclerItemBinding = RecyclerItemBinding.bind(itemView)
+
+    class HolderLayoutProvider() : LayoutProvider {
+        override fun getLayoutView(parent: ViewGroup): View =
+            LayoutInflater.from(parent.context).inflate(R.layout.recycler_item, parent, false)
+    }
+
+    override fun onBind(data: TestBean) {
+        binding.rvItemTv.text = data.content
+    }
+
+}
+```
+
+或者直接继承BaseBindingTypeHolder并提供binding类型，然后就能直接使用binding对象：
+
+```kotlin
+@AdapterHolder(
+    adapters = [TestAdapter::class],
+    viewTypes = ["text_type"],
+    layoutProvider = TestHolder.HolderLayoutProvider::class
+)
+class TestHolder(itemView: View) :
+    BaseBindingTypeHolder<RecyclerItemBinding,TestBean>(itemView) {
 
     class HolderLayoutProvider() : LayoutProvider {
         override fun getLayoutView(parent: ViewGroup): View =

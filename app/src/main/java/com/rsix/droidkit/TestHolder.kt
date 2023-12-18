@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.rsix.annotation.AdapterHolder
 import com.rsix.annotation.LayoutProvider
 import com.rsix.droidkit.databinding.RecyclerItemBinding
+import com.rsix.library.BaseBindingTypeHolder
 import com.rsix.library.BaseViewTypeHolder
 import com.rsix.library.DefaultListAdapter
 import com.rsix.library.DefaultViewTypeAdapter
@@ -152,5 +153,25 @@ class TestHolder5(private val composeView: ComposeView) : BaseViewTypeHolder<Tes
                 fontSize = 20.sp
             )
         }
+    }
+}
+
+@AdapterHolder(
+    adapters = [DefaultListAdapter::class],
+    viewTypes = ["type5"],
+    layoutProvider = TestHolder6.HolderLayoutProvider::class
+)
+class TestHolder6(itemView: View) :
+    BaseBindingTypeHolder<RecyclerItemBinding,TestBean4>(itemView) {
+
+    class HolderLayoutProvider() : LayoutProvider {
+        override fun getLayoutView(parent: ViewGroup): View =
+            LayoutInflater.from(parent.context).inflate(R.layout.recycler_item, parent, false)
+
+    }
+
+    override fun onBind(data: TestBean4) {
+        binding.rvItemTv.text = data.title
+        binding.rvItemIv.setImageResource(data.drawableSrc)
     }
 }

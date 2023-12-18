@@ -36,6 +36,9 @@ android {
             }
         }
     }
+    dataBinding {
+        enable = true
+    }
 }
 
 dependencies {

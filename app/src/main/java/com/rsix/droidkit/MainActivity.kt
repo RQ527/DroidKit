@@ -38,13 +38,14 @@ class MainActivity : ComponentActivity() {
     }
 }
 fun generateRandomBean(random: Random,position:Int):BaseViewTypeItem{
-    return when(random.nextInt(IntRange(0,5))){
+    return when(random.nextInt(IntRange(0,6))){
         0->TestBean("type", "我是个文本item", position)
         1->TestBean1("type1", "我是个按钮，别点我", position)
         2->TestBean2("type2", "我是主标题",position,"我是子标题")
         3->TestBean3("type3", "我是xml布局，下面是张图片", position,R.drawable.ic_launcher_background)
-        4->TestBean4("type4", position, "我是binding布局，下面是张图片",R.drawable.ic_launcher_background)
+        4->TestBean4("type4", position, "我是binding布局1，下面是张图片",R.drawable.ic_launcher_background)
         5->TestBean("unknown","未知类型",position)
+        6->TestBean4("type5", position, "我是binding布局2，下面是张图片",R.drawable.ic_launcher_background)
         else -> throw RuntimeException("unknown random value")
     }
 }

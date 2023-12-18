@@ -72,7 +72,6 @@ class HolderProcessor(private val codeGenerator: CodeGenerator, val logger: KSPL
     }
 
     private fun checkHolder(ksClass: KSClassDeclaration){
-        ksClass.primaryConstructor?.let { if (it.parameters.size > 1) throw AdapterHolderException("adapterHolder can only has") }
         ksClass.getAllSuperTypes().forEach {
             if (it.toClassName().toString()=="com.rsix.library.BaseViewTypeHolder") return
         }
