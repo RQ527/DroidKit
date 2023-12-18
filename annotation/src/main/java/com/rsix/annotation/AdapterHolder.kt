@@ -9,7 +9,7 @@ annotation class AdapterHolder (
     /**
      * holder在adapter里所属类型，当与data类匹配不到时会自动过滤不显示
      */
-    val viewType:String = "",
+    val viewTypes:Array<String> = [],
     /**
      * 所适用的adapter
      */

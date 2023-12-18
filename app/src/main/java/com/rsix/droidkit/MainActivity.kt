@@ -44,7 +44,7 @@ fun generateRandomBean(random: Random,position:Int):BaseViewTypeItem{
         2->TestBean2("type2", "我是主标题",position,"我是子标题")
         3->TestBean3("type3", "我是xml布局，下面是张图片", position,R.drawable.ic_launcher_background)
         4->TestBean4("type4", position, "我是binding布局，下面是张图片",R.drawable.ic_launcher_background)
-        5->TestBean("unknown","未知类型",-1)
+        5->TestBean("unknown","未知类型",position)
         else -> throw RuntimeException("unknown random value")
     }
 }

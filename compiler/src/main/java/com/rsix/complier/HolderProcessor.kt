@@ -55,7 +55,7 @@ class HolderProcessor(private val codeGenerator: CodeGenerator, val logger: KSPL
                         checkLayoutProvider(layoutProvider)
                         factory.addSupportHolder(
                             AdapterHolderInfo(
-                                it.viewType,
+                                it.viewTypes,
                                 layoutProvider,
                                 ksAnnotated.toClassName().toString(),
                                 isNeedComposeView(ksAnnotated)

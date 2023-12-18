@@ -42,7 +42,9 @@ class HolderFactoryClass(
         val initFun = FunSpec.constructorBuilder()
             .addModifiers(KModifier.PRIVATE)
         mSupportHolders.forEach {
-            initFun.addStatement("addViewType(%S)",it.viewType)
+            it.viewTypes.forEach { viewType->
+                initFun.addStatement("addViewType(%S)",viewType)
+            }
         }
         return initFun.build()
     }
@@ -61,32 +63,34 @@ class HolderFactoryClass(
             .addParameter("parent", VIEW_GROUP_CLASS)
             .addParameter("viewType", ClassName("kotlin", "Int"))
             .returns(BASE_HOLDER_CLASS)
-        mSupportHolders.forEachIndexed { index, info ->
-            createMethod.apply {
-                if (index == 0) beginControlFlow(
-                    "if(viewType == getIntViewType(%S))",
-                    info.viewType
-                )
-                else beginControlFlow(
-                    "else if(viewType == getIntViewType(%S))",
-                    info.viewType
-                )
-                if (info.needComposeView)
-                    addStatement(
-                        "return %T(%T(parent.context))",
-                        ClassName.bestGuess(info.holderQualifiedName),
-                        COMPOSE_VIEW_CLASS
+        mSupportHolders.forEachIndexed { index1, info ->
+            info.viewTypes.forEachIndexed { index2,viewType->
+                createMethod.apply {
+                    if (index1 == 0 && index2 == 0) beginControlFlow(
+                        "if(viewType == getIntViewType(%S))",
+                        viewType
                     )
-                else info.layoutProvider?.let {
-                    addStatement(
-                        "return %T(%T().getLayoutView(parent))",
-                        ClassName.bestGuess(info.holderQualifiedName),
-                        ClassName.bestGuess(
-                            (it.declaration as KSClassDeclaration).toClassName().toString()
+                    else beginControlFlow(
+                        "else if(viewType == getIntViewType(%S))",
+                        viewType
+                    )
+                    if (info.needComposeView)
+                        addStatement(
+                            "return %T(%T(parent.context))",
+                            ClassName.bestGuess(info.holderQualifiedName),
+                            COMPOSE_VIEW_CLASS
                         )
-                    )
-                } ?: throw AdapterHolderException("holder need itemView but layoutProvider is null")
-                endControlFlow()
+                    else info.layoutProvider?.let {
+                        addStatement(
+                            "return %T(%T().getLayoutView(parent))",
+                            ClassName.bestGuess(info.holderQualifiedName),
+                            ClassName.bestGuess(
+                                (it.declaration as KSClassDeclaration).toClassName().toString()
+                            )
+                        )
+                    } ?: throw AdapterHolderException("holder need itemView but layoutProvider is null")
+                    endControlFlow()
+                }
             }
         }
         createMethod.addStatement(

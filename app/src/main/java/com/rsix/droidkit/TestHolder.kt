@@ -26,7 +26,7 @@ import com.rsix.library.DefaultViewTypeAdapter
 
 @AdapterHolder(
     adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
-    viewType = "type"
+    viewTypes = ["type","unknown"]
 )
 class TestHolder(private val composeView: ComposeView) : BaseViewTypeHolder<TestBean>(composeView) {
 
@@ -44,7 +44,7 @@ class TestHolder(private val composeView: ComposeView) : BaseViewTypeHolder<Test
 
 @AdapterHolder(
     adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
-    viewType = "type1"
+    viewTypes = ["type1"]
 )
 class TestHolder1(private val composeView: ComposeView) :
     BaseViewTypeHolder<TestBean1>(composeView) {
@@ -69,7 +69,7 @@ class TestHolder1(private val composeView: ComposeView) :
 
 @AdapterHolder(
     adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
-    viewType = "type2"
+    viewTypes = ["type2"]
 )
 class TestHolder2(private val composeView: ComposeView) :
     BaseViewTypeHolder<TestBean2>(composeView) {
@@ -96,7 +96,7 @@ class TestHolder2(private val composeView: ComposeView) :
 
 @AdapterHolder(
     adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
-    viewType = "type3",
+    viewTypes = ["type3"],
     layoutProvider = TestHolder3.HolderLayoutProvider::class
 )
 class TestHolder3(itemView: View) :
@@ -118,7 +118,7 @@ class TestHolder3(itemView: View) :
 }
 @AdapterHolder(
     adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
-    viewType = "type4",
+    viewTypes = ["type4"],
     layoutProvider = TestHolder4.HolderLayoutProvider::class
 )
 class TestHolder4(itemView: View) :
@@ -139,7 +139,7 @@ class TestHolder4(itemView: View) :
 
 @AdapterHolder(
     adapters = [TestAdapter::class,DefaultListAdapter::class,DefaultViewTypeAdapter::class],
-    viewType = "unknownType"
+    viewTypes = ["unknownType"]
 )
 class TestHolder5(private val composeView: ComposeView) : BaseViewTypeHolder<TestBean>(composeView) {
 

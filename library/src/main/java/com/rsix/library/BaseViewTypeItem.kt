@@ -7,7 +7,7 @@ abstract class BaseViewTypeItem{
     abstract val viewType:String
 
     /**
-     * item的id，用与diffUtil
+     * item的id，用于diffUtil
      */
     abstract val id:Int
 }
