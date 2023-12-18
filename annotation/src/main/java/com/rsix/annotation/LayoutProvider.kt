@@ -11,7 +11,7 @@ import android.view.ViewGroup
  * ```kotlin
  * @AdapterHolder(
  *     adapters = [TestAdapter::class],
- *     viewType = "text_type",
+ *     viewTypes = ["text_type"],
  *     layoutProvider = TestHolder.HolderLayoutProvider::class
  * )
  * class TestHolder(itemView: View) : BaseViewTypeHolder<TestBean>(itemView) {

@@ -93,7 +93,7 @@ class TestAdapter(
 实现BaseViewTypeHolder，给adapter传holder所支持的adapter，如果你的adapter没有任何其他逻辑可直接直接使用默认Adapter：DefaultListAdapter或DefaultViewTypeAdapter：
 
 ```kotlin
-@AdapterHolder(adapters = [TestAdapter::class,DefaultViewTypeAdapter::class],viewType = "test")
+@AdapterHolder(adapters = [TestAdapter::class,DefaultViewTypeAdapter::class],viewTypes = ["test"])
 class TestHolder(private val composeView: ComposeView) : BaseViewTypeHolder<TestBean>(composeView) {
 
     override fun onBind(data: TestBean) {
@@ -113,7 +113,7 @@ holder的rootView有三种，普通xml的itemView，composeView，viewBinding。
 ```kotlin
 @AdapterHolder(
     adapters = [TestAdapter::class],
-    viewType = "text_type",
+    viewTypes = ["text_type"],
     layoutProvider = TestHolder.HolderLayoutProvider::class
 )
 class TestHolder(itemView: View) :
@@ -138,7 +138,7 @@ class TestHolder(itemView: View) :
 ```kotlin
 @AdapterHolder(
     adapters = [TestAdapter::class],
-    viewType = "text_type",
+    viewTypes = ["text_type"],
     layoutProvider = TestHolder.HolderLayoutProvider::class
 )
 class TestHolder(itemView: View) :
@@ -188,13 +188,13 @@ class MainActivity : ComponentActivity() {
 
 当然这里的dataList的成员可以是任何BaseViewTypeItem的子类。只要能与holder所需的data数据类相匹配即可。
 
-AdapterHolder支持一个Holder对多个Adapter，将其适用的Adapter全部传入adapters即可。
+AdapterHolder支持一个Holder对多个Adapter，拥有多个类型viewType，将其适用的Adapter全部传入adapters，适用的viewType全部传入viewTypes即可，
 
 ```kotlin
 @Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS)
 annotation class AdapterHolder (
-    val viewType:String = "",
+    val viewTypes:Array<String> = [],
     val adapters:Array<KClass<out RecyclerView.Adapter<out RecyclerView.ViewHolder>>> = [],
     val layoutProvider:KClass<out LayoutProvider> = LayoutProvider::class,
 )
