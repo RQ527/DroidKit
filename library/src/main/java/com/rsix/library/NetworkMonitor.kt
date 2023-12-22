@@ -27,6 +27,8 @@ class NetworkMonitor private constructor() {
     val network
         get() = _network
 
+    val isNetActive = network != NO_CONNECTIVITY
+
     fun init(context: Context) {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
