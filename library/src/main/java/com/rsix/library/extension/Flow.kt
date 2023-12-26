@@ -1,7 +1,9 @@
 package com.rsix.library.extension
 
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Job
@@ -17,49 +19,80 @@ import kotlin.reflect.KProperty1
 fun <T> StateFlow<T>.collectWithLifecycle(
     lifecycleOwner: LifecycleOwner,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    handle: (T) -> Unit
+    handle: (T) -> Unit,
 ): Job = lifecycleOwner.lifecycleScope.launch {
     flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState)
-        .onEach { handle(it) }.collect()
+        .collect { handle(it) }
 }
+
 fun <T, R> StateFlow<T>.collectWithLifecycle(
     lifecycleOwner: LifecycleOwner,
     minActiveState: Lifecycle.State = Lifecycle.State.CREATED,
     prop: KProperty1<T, R>,
-    action: (R) -> Unit
+    action: (R) -> Unit,
 ): Job = lifecycleOwner.lifecycleScope.launch {
-    flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState).map { prop.get(it) }.collect { action(it) }
+    flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState).map { prop.get(it) }
+        .collect { action(it) }
 }
+
 fun <T> SharedFlow<T>.collectWithLifecycle(
     lifecycleOwner: LifecycleOwner,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    handle: (T) -> Unit
+    handle: (T) -> Unit,
 ): Job = lifecycleOwner.lifecycleScope.launch {
     flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState)
         .onEach { handle(it) }.collect()
 }
+
 fun <T, R> SharedFlow<T>.collectWithLifecycle(
     lifecycleOwner: LifecycleOwner,
     minActiveState: Lifecycle.State = Lifecycle.State.CREATED,
     prop: KProperty1<T, R>,
-    action: (R) -> Unit
+    action: (R) -> Unit,
 ): Job = lifecycleOwner.lifecycleScope.launch {
-    flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState).map { prop.get(it) }.collect { action(it) }
+    flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState).map { prop.get(it) }
+        .collect { action(it) }
 }
+
 fun <T> SharedFlow<T>.collectUntilChange(
     lifecycleOwner: LifecycleOwner,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    handle: (T) -> Unit
+    handle: (T) -> Unit,
 ): Job = lifecycleOwner.lifecycleScope.launch {
     flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState).distinctUntilChanged()
-        .onEach { handle(it) }.collect()
+        .collect { handle(it) }
 }
+
 fun <T, R> SharedFlow<T>.collectUntilChange(
     lifecycleOwner: LifecycleOwner,
     minActiveState: Lifecycle.State = Lifecycle.State.CREATED,
     prop: KProperty1<T, R>,
-    action: (R) -> Unit
+    action: (R) -> Unit,
 ): Job = lifecycleOwner.lifecycleScope.launch {
     flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState).map { prop.get(it) }
         .distinctUntilChanged().collect { action(it) }
 }
+
+@Composable
+fun <T> StateFlow<T>.collectAsStateWittLifecycle() = collectAsStateWithLifecycle(value)
+@Composable
+fun <T, R> StateFlow<T>.collectAsStateWittLifecycle(
+    prop: KProperty1<T, R>,
+) = map { prop.get(it) }.collectAsStateWithLifecycle(value)
+
+@Composable
+fun <T, R> SharedFlow<T>.collectAsStateWittLifecycle(
+    prop: KProperty1<T, R>,
+    initialValue: R
+) = map { prop.get(it) }.collectAsStateWithLifecycle(initialValue)
+
+@Composable
+fun <T> SharedFlow<T>.collectDistinctAsState(
+    initialValue:T
+) = distinctUntilChanged().collectAsStateWithLifecycle(initialValue)
+
+@Composable
+fun <T, R> SharedFlow<T>.collectDistinctAsState(
+    prop: KProperty1<T, R>,
+    initialValue: R
+) = map { prop.get(it) }.distinctUntilChanged().collectAsStateWithLifecycle(initialValue)
